@@ -1,0 +1,54 @@
+/* Write your CSS here */
+.order-total-heading {
+  font-weight: bold;
+  font-family: 'Roboto';
+  font-size: 20px;
+  color: #616e7c;
+}
+
+.order-total-span-num {
+  color: #171f46;
+}
+
+.items-in-cart {
+  color: #616e7c;
+  font-family: 'Roboto';
+  font-size: 12px;
+}
+
+.check-out-button {
+  background-color: #0b69ff;
+  outline: none;
+  border: none;
+  color: #ffffff;
+  font-family: 'Roboto';
+  font-size: 15px;
+  width: 100%;
+  padding: 8px;
+  border-radius: 5px;
+}
+
+.cart-summary-over-all-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+@media (min-width: 768px) {
+  .cart-summary-container {
+    width: 40%;
+  }
+
+  .check-out-button {
+    width: 40%;
+    font-size: 17px;
+  }
+
+  .order-total-heading {
+    font-size: 25px;
+  }
+
+  .items-in-cart {
+    font-size: 15px;
+  }
+}
