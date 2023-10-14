@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 import Cookies from 'js-cookie'
 import Loader from 'react-loader-spinner'
 import {BsPlusSquare, BsDashSquare} from 'react-icons/bs'
-
+import {AiOutlineCloseCircle} from 'react-icons/ai'
 import CartContext from '../../context/CartContext'
 
 import Header from '../Header'
@@ -24,6 +24,7 @@ class ProductItemDetails extends Component {
     similarProductsData: [],
     apiStatus: apiStatusConstants.initial,
     quantity: 1,
+    popup: false,
   }
 
   componentDidMount() {
@@ -111,10 +112,19 @@ class ProductItemDetails extends Component {
     this.setState(prevState => ({quantity: prevState.quantity + 1}))
   }
 
+  onPopupCloseButton = () => {
+    this.setState({popup: false})
+  }
+
+  onClickViewCartButton = () => {
+    const {history} = this.props
+    history.push('/cart')
+  }
+
   renderProductDetailsView = () => (
     <CartContext.Consumer>
       {value => {
-        const {productData, quantity, similarProductsData} = this.state
+        const {productData, quantity, similarProductsData, popup} = this.state
         const {
           availability,
           brand,
@@ -124,12 +134,18 @@ class ProductItemDetails extends Component {
           rating,
           title,
           totalReviews,
+          id,
         } = productData
-        const {addCartItem} = value
+        const {addCartItem, cartList} = value
         const onClickAddToCart = () => {
           addCartItem({...productData, quantity})
+          this.setState({popup: true})
         }
 
+        const isAddedCart = cartList.find(each => each.id === id)
+
+        const isAdded = undefined === isAddedCart
+        console.log(isAdded)
         return (
           <div className="product-details-success-view">
             <div className="product-details-container">
@@ -177,13 +193,42 @@ class ProductItemDetails extends Component {
                     <BsPlusSquare className="quantity-controller-icon" />
                   </button>
                 </div>
-                <button
-                  type="button"
-                  className="button add-to-cart-btn"
-                  onClick={onClickAddToCart}
-                >
-                  ADD TO CART
-                </button>
+                {isAdded && (
+                  <div>
+                    <button
+                      type="button"
+                      className="button add-to-cart-btn"
+                      onClick={onClickAddToCart}
+                    >
+                      ADD TO CART
+                    </button>
+                  </div>
+                )}
+
+                {!isAdded && (
+                  <button
+                    onClick={this.onClickViewCartButton}
+                    className="button add-to-cart-btn"
+                    type="button"
+                  >
+                    View Cart
+                  </button>
+                )}
+
+                {popup && (
+                  <div className="add-cart-msg-container">
+                    <p className="add-to-success-msg">
+                      Added to your cart successfully! :)
+                    </p>
+                    <button
+                      onClick={this.onPopupCloseButton}
+                      type="button"
+                      className="close-button"
+                    >
+                      <AiOutlineCloseCircle size={20} color="#ffffff" />
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
             <h1 className="similar-products-heading">Similar Products</h1>

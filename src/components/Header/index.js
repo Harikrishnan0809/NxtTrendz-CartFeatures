@@ -1,17 +1,10 @@
 import {Link, withRouter} from 'react-router-dom'
-import Cookies from 'js-cookie'
 
 import CartContext from '../../context/CartContext'
 
 import './index.css'
 
-const Header = props => {
-  const onClickLogout = () => {
-    const {history} = props
-    Cookies.remove('jwt_token')
-    history.replace('/login')
-  }
-
+const Header = () => {
   const renderCartItemsCount = () => (
     <CartContext.Consumer>
       {value => {
@@ -40,18 +33,6 @@ const Header = props => {
               alt="website logo"
             />
           </Link>
-
-          <button
-            type="button"
-            className="nav-mobile-btn"
-            onClick={onClickLogout}
-          >
-            <img
-              src="https://assets.ccbp.in/frontend/react-js/nxt-trendz-log-out-img.png"
-              alt="nav logout"
-              className="nav-bar-img"
-            />
-          </button>
         </div>
 
         <div className="nav-bar-large-container">
@@ -82,13 +63,6 @@ const Header = props => {
               </Link>
             </li>
           </ul>
-          <button
-            type="button"
-            className="logout-desktop-btn"
-            onClick={onClickLogout}
-          >
-            Logout
-          </button>
         </div>
       </div>
       <div className="nav-menu-mobile">
